@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Application\**" />
+    <EmbeddedResource Remove="Application\**" />
+    <None Remove="Application\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Implementation\Base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
 </Project>
