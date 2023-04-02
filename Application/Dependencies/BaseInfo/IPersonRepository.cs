@@ -5,7 +5,7 @@ namespace Application.Dependencies.BaseInfo
 {
     public interface IPersonRepository : IBaseRepository<string, Person>
     {
-        public Task<bool> UpdatePerson(Person person);
+        public void UpdatePerson(Person person);
         public Task<bool> DeletePerson(string PersonId);
 
     }

@@ -12,6 +12,9 @@ namespace Domain.DTOs.Auth.Response
         public string? Email { get; set; }
         public string? MobileNo { get; set; }
         public string? NationalNo { get; set; }
+        public string? UserId { get; set; }
+        public string? PersonId { get; set; }
+        public string? FullName { get; set; }
         public AccessLevel UserAccessLevel { get; set; }
     }
 }

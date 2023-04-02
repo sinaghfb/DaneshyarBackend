@@ -6,7 +6,7 @@ namespace Application.Dependencies.Auth
 {
     public interface IUserRepository: IBaseRepository<string, User> 
     {
-        public Task<bool> UpdateUser(User user);
+        public void UpdateUser(User user);
         public Task<bool> DeleteUser(string UserId);
     }
 }

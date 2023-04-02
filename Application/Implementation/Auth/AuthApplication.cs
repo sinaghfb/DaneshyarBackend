@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Application.Implementation.Auth
 {
-    internal class AuthApplication : IAuthApplication
+    public class AuthApplication : IAuthApplication
     {
         private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
@@ -41,8 +41,15 @@ namespace Application.Implementation.Auth
                     newUser.Email=user.Email;
                     newUser.MobileNo=user.MobileNo;
                     newUser.HashedPassword = HashPassword(user.Password);
-                    if (await _userRepository.Create(newUser))
+                    _userRepository.Create(newUser);
+                    if (await _userRepository.SaveChanges())
                     {
+                        response.UserId = newUser.Id;
+                        response.PersonId = newUser.ThePerson.Id;
+                        response.UserName = newUser.Username;
+                        response.UserAccessLevel = (int)newUser.TheRole.UserAccessLevel;
+                        response.FullName = newUser.ThePerson.Name + " " + newUser.ThePerson.Family;
+                        response.NationalNo = newUser.ThePerson.NationalNo;
                         response.Status = ResponseState.Success;
                         response.Message = "ثبت کاربر موفقیت آمیز بود";
                         response.Description = "User Registerd Succsessfuly";
@@ -81,7 +88,7 @@ namespace Application.Implementation.Auth
 
             return stringResult;
         }
-        private Expression<Func<User, bool>> UserFinder(BaseUserRequest user)
+        private static Expression<Func<User, bool>> UserFinder(BaseUserRequest user)
         {
             if (!string.IsNullOrWhiteSpace(user.UserId))
             {
@@ -114,10 +121,16 @@ namespace Application.Implementation.Auth
                 if (foundedUser != null)
                 {
                     foundedUser.HashedPassword=HashPassword(user.NewPassword);
-
-                    if(await _userRepository.UpdateUser(foundedUser))
+                    _userRepository.UpdateUser(foundedUser);
+                    if (await _userRepository.SaveChanges())
                     {
+                        response.UserId = foundedUser.Id;
+                        response.PersonId = foundedUser.ThePerson.Id;
+                        response.UserName = foundedUser.Username;
+                        response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
                         response.Status = ResponseState.Success;
+                        response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
+                        response.NationalNo = foundedUser.ThePerson.NationalNo;
                         response.Message = "تغییر کلمه عبور کاربر موفقیت آمیز بود";
                         response.Description = "Change Password Done Succsessfuly";
                     }
@@ -144,7 +157,6 @@ namespace Application.Implementation.Auth
 
             return response;
         }
-
         public async Task<BaseUserResponse> DeleteUser(BaseUserRequest user)
         {
             BaseUserResponse response = new();
@@ -183,7 +195,6 @@ namespace Application.Implementation.Auth
             }
             return response;
         }
-
         public async Task<UserInfoResponse> GetUserInfo(BaseUserRequest user)
         {
             UserInfoResponse response = new();
@@ -200,6 +211,9 @@ namespace Application.Implementation.Auth
                     response.Family = foundedUser.ThePerson.Family;
                     response.NationalNo = foundedUser.ThePerson.NationalNo;
                     response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
+                    response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
+                    response.UserId = foundedUser.Id;
+                    response.PersonId=foundedUser.ThePerson.Id;
                     response.Status = ResponseState.Success;
                     response.Message = "اطلاعات کاربر یافت شد";
                     response.Description = "User Find Succsessfuly";
@@ -219,9 +233,8 @@ namespace Application.Implementation.Auth
                 response.Message = "بازیابی اطلاعات کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
-            throw new NotImplementedException();
+            return response;
         }
-
         public async Task<BaseUserResponse> NewUserRegister(NewUserRegisterRequest user)
         {
             BaseUserResponse response = new();
@@ -236,18 +249,28 @@ namespace Application.Implementation.Auth
                     newPerson.FatherName = user.FatherName;
                     newPerson.Name = user.Name;
                     newPerson.Family = user.Family;
-                    if (await _personRepository.Create(newPerson))
+                    _personRepository.Create(newPerson);
+                    if (await _personRepository.SaveChanges())
                     {
                         User newUser = new();
-                        newUser.TheRole = foundedRole;
-                        newUser.ThePerson = newPerson;
+                        newUser.RoleId = foundedRole.Id;
+                        newUser.PersonId = newPerson.Id;
+                        //newUser.ThePerson = newPerson;
+                        //newUser.TheRole = foundedRole;
                         newUser.Username = user.Username;
                         newUser.Email = user.Email;
                         newUser.MobileNo = user.MobileNo;
                         newUser.HashedPassword = HashPassword(user.Password);
-                        if (await _userRepository.Create(newUser))
+                        response.FullName = newUser.ThePerson.Name + " " + newUser.ThePerson.Family;
+                        response.NationalNo = newUser.ThePerson.NationalNo;
+                        _userRepository.Create(newUser);
+                        if (await _userRepository.SaveChanges())
                         {
+                            response.UserId = newUser.Id;
+                            response.PersonId= newUser.ThePerson.Id;
+                            response.UserName = newUser.Username;
                             response.Status = ResponseState.Success;
+                            response.UserAccessLevel =(int) newUser.TheRole.UserAccessLevel;
                             response.Message = "ثبت کاربر موفقیت آمیز بود";
                             response.Description = "User Registerd Succsessfuly";
                         }
@@ -265,6 +288,12 @@ namespace Application.Implementation.Auth
                         response.Description = "User Not Found";
                     }
                 }
+                else
+                {
+                    response.Status = ResponseState.Failed;
+                    response.Message = "اطلاعات کاربر موجود است";
+                    response.Description = "user Exists";
+                }
             }
             catch (Exception ex)
             {
@@ -274,7 +303,6 @@ namespace Application.Implementation.Auth
             }
             return response;
         }
-
         public async Task<BaseUserResponse> UpdateUser(UpdateUserRequest user)
         {
             BaseUserResponse response = new();
@@ -284,11 +312,75 @@ namespace Application.Implementation.Auth
                 var foundedUser = await _userRepository.Get(x => x.Id == user.UserId);
                 if (foundedUser!=null)
                 {
-                    
-
-                    response.Status = ResponseState.Success;
-                    response.Message = "به روزرسانی کاربر موفقیت آمیز بود";
-                    response.Description = "User Registerd Succsessfuly";
+                    if (foundedUser.ThePerson.NationalNo != user.NationalNo)
+                    {
+                        if (!await _personRepository.Exists(x => x.NationalNo == user.NationalNo))
+                        {
+                            var role = await _roleRepository.Get(x => x.UserAccessLevel == user.UserAccessLevel);
+                            foundedUser.Email = user.Email;
+                            foundedUser.MobileNo = user.MobileNo;
+                            foundedUser.ThePerson.NationalNo = user.NationalNo;
+                            foundedUser.ThePerson.Name = user.Name;
+                            foundedUser.ThePerson.Family = user.Family;
+                            foundedUser.ThePerson.FatherName = user.FatherName;
+                            foundedUser.TheRole = role;
+                            _userRepository.UpdateUser(foundedUser);
+                            if (await _userRepository.SaveChanges())
+                            {
+                                response.UserId = foundedUser.Id;
+                                response.PersonId = foundedUser.ThePerson.Id;
+                                response.UserName = foundedUser.Username;
+                                response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
+                                response.Status = ResponseState.Success;
+                                response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
+                                response.NationalNo = foundedUser.ThePerson.NationalNo;
+                                response.Message = "به روزرسانی کاربر موفقیت آمیز بود";
+                                response.Description = "User Registerd Succsessfuly";
+                            }
+                            else
+                            {
+                                response.Status = ResponseState.Failed;
+                                response.Message = "به روزرسانی کاربر با خطا مواجه شد";
+                                response.Description = "User Register Failed";
+                            }
+                        }
+                        else
+                        {
+                            response.Status = ResponseState.Failed;
+                            response.Message = "کد ملی تکراری است";
+                            response.Description = "Duplicate National No";
+                        }
+                    }
+                    else
+                    {
+                        var role = await _roleRepository.Get(x => x.UserAccessLevel == user.UserAccessLevel);
+                        foundedUser.Email = user.Email;
+                        foundedUser.MobileNo = user.MobileNo;
+                        foundedUser.ThePerson.NationalNo = user.NationalNo;
+                        foundedUser.ThePerson.Name = user.Name;
+                        foundedUser.ThePerson.Family = user.Family;
+                        foundedUser.ThePerson.FatherName = user.FatherName;
+                        foundedUser.RoleId = role.Id;
+                        _userRepository.UpdateUser(foundedUser);
+                        if (await _userRepository.SaveChanges())
+                        {
+                            response.UserId = foundedUser.Id;
+                            response.PersonId = foundedUser.ThePerson.Id;
+                            response.UserName = foundedUser.Username;
+                            response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
+                            response.Status = ResponseState.Success;
+                            response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
+                            response.NationalNo = foundedUser.ThePerson.NationalNo;
+                            response.Message = "به روزرسانی کاربر موفقیت آمیز بود";
+                            response.Description = "User Registerd Succsessfuly";
+                        }
+                        else
+                        {
+                            response.Status = ResponseState.Failed;
+                            response.Message = "به روزرسانی کاربر با خطا مواجه شد";
+                            response.Description = "User Register Failed";
+                        }
+                    }
                 }
                 else
                 {
@@ -303,9 +395,8 @@ namespace Application.Implementation.Auth
                 response.Message = "به روزرسانی کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
-            throw new NotImplementedException();
+            return response;
         }
-
         public async Task<BaseUserResponse> UserLogin(UserLoginRequest user)
         {
             BaseUserResponse response = new();
@@ -316,7 +407,13 @@ namespace Application.Implementation.Auth
                 {
                     if (foundedUser.HashedPassword==HashPassword(user.password))
                     {
+                        response.UserId = foundedUser.Id;
+                        response.PersonId = foundedUser.ThePerson.Id;
+                        response.UserName = foundedUser.Username;
+                        response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
                         response.Status = ResponseState.Success;
+                        response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
+                        response.NationalNo = foundedUser.ThePerson.NationalNo;
                         response.Message = "ورود کاربر  موفقیت آمیز بود";
                         response.Description = "User Registerd Succsessfuly";
                     }

@@ -11,11 +11,11 @@ namespace Domain.Entites.Auth
             TheUsers = new List<User>();
         }
         [Required]
-        public string? FarsiTitle { get; set; }
+        public string FarsiTitle { get; set; }
         [Required]
-        public string? EnglishTitle { get; set; }
+        public string EnglishTitle { get; set; }
         [Required]
         public AccessLevel UserAccessLevel { get; set; }
-        public List<User> TheUsers { get; set; }
+        public virtual List<User> TheUsers { get; set; }
     }
 }

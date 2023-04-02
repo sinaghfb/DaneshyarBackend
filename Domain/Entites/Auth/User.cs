@@ -13,16 +13,18 @@ namespace Domain.Entites.Auth
             TheRole = new Role();
         }
         [Required]
-        [ForeignKey("User.ThePerson")]
-        public Person ThePerson { get; set; }
+        public virtual Person ThePerson { get; set; }
         [Required]
-        [ForeignKey("User.TheRole")]
-        public Role TheRole { get; set; }
+        public virtual Role TheRole { get; set; }
         [Required]
-        public string? Username { get; set; }
+        public string Username { get; set; }
         [Required]
-        public string? HashedPassword { get; set; }
-        public string? Email { get; set; }
-        public string? MobileNo { get; set; }
+        public string HashedPassword { get; set; }
+        public string Email { get; set; }
+        public string MobileNo { get; set; }
+        [Required]
+        public string RoleId { get; set; }
+        [Required]
+        public string PersonId { get; set; }
     }
 }

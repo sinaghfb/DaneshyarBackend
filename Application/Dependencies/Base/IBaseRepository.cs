@@ -7,7 +7,8 @@ namespace Application.Dependencies.Base
         Task<T> Get(Tkey id);
         Task<T> Get(Expression<Func<T, bool>> expression);
         Task<List<T>> Get();
-        Task<bool> Create(T entity);
+        void Create(T entity);
         Task<bool> Exists(Expression<Func<T, bool>> expression);
+        Task<bool> SaveChanges();
     }
 }

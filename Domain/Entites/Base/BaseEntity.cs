@@ -13,16 +13,18 @@ namespace Domain.Entites.Base
         public BaseEntity()
         {
             Id = Guid.NewGuid().ToString();
-            State = EntityState.Active;
-            TimeStamp = 1;
+            State = ObjectState.Active;
+            CreateDateTime = DateTime.Now;
         }
         [Required]
         [Key]
         public string Id { get; set; }
         [Required]
         [Timestamp]
-        public int TimeStamp { get; set; }
+        public byte[] TimeStamp { get; set; }
         [Required]
-        public EntityState State { get; set; }
+        public ObjectState State { get; set; }
+        [ConcurrencyCheck]
+        public DateTime CreateDateTime { get; set; }
     }
 }

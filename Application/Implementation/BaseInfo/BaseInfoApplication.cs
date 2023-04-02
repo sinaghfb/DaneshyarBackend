@@ -9,7 +9,7 @@ using Domain.Enums;
 
 namespace Application.Implementation.BaseInfo
 {
-    internal class BaseInfoApplication : IBaseInfoApplication
+    public class BaseInfoApplication : IBaseInfoApplication
     {
         private readonly IPersonRepository _baseInfoRepository;
         public BaseInfoApplication(IPersonRepository baseInfoRepository)
@@ -29,7 +29,8 @@ namespace Application.Implementation.BaseInfo
                     newPerson.Family = person.Family;
                     newPerson.FatherName = person.FatherName;
                     newPerson.NationalNo = person.NationalNo;
-                    if (await _baseInfoRepository.Create(newPerson))
+                    _baseInfoRepository.Create(newPerson);
+                    if (await _baseInfoRepository.SaveChanges())
                     {
                         response.Status = ResponseState.Success;
                         response.Message = "ثبت شخص موفقیت آمیز بود";
@@ -65,7 +66,8 @@ namespace Application.Implementation.BaseInfo
             {
                 if (!string.IsNullOrWhiteSpace(person.PersonId))
                 {
-                    if (await _baseInfoRepository.DeletePerson(person.PersonId))
+                    await _baseInfoRepository.DeletePerson(person.PersonId);
+                    if (await _baseInfoRepository.SaveChanges())
                     {
                         response.Status = ResponseState.Success;
                         response.Message = "حذف شخص موفقیت آمیز بود";
@@ -83,7 +85,8 @@ namespace Application.Implementation.BaseInfo
                     var foundedPerson = await _baseInfoRepository.Get(x => x.NationalNo == person.NationalNo);
                     if (foundedPerson != null)
                     {
-                        if (await _baseInfoRepository.DeletePerson(foundedPerson.Id))
+                        await _baseInfoRepository.DeletePerson(foundedPerson.Id);
+                        if (await _baseInfoRepository.SaveChanges())
                         {
                             response.Status = ResponseState.Success;
                             response.Message = "حذف شخص موفقیت آمیز بود";
@@ -238,7 +241,8 @@ namespace Application.Implementation.BaseInfo
                             foundedPerson.Family=person.Family;
                             foundedPerson.Name=person.Name;
                             foundedPerson.FatherName=person.FatherName;
-                            if (await _baseInfoRepository.UpdatePerson(foundedPerson))
+                            _baseInfoRepository.UpdatePerson(foundedPerson);
+                            if (await _baseInfoRepository.SaveChanges())
                             {
                                 response.Status = ResponseState.Success;
                                 response.Message = "شخص با موفقیت به روزسانی شد";

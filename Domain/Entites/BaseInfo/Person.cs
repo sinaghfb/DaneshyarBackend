@@ -11,15 +11,15 @@ namespace Domain.Entites.BaseInfo
             TheUsers = new List<User>();
         }
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
         [Required]
-        public string? Family { get; set; }
+        public string Family { get; set; }
 
-        public string? FatherName { get; set; }
+        public string FatherName { get; set; }
         [Required]
         [MaxLength(10)]
         [MinLength(10)]
-        public string? NationalNo { get; set; }
-        public List<User> TheUsers { get; set; }
+        public string NationalNo { get; set; }
+        public virtual List<User> TheUsers { get; set; }
     }
 }
