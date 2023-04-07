@@ -1,8 +1,10 @@
 ﻿using Domain.Contracts.Auth;
 using Domain.DTOs.Auth.Request;
+using Domain.DTOs.Auth.Response;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,12 +16,12 @@ namespace WebAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[Action]")]
     [ApiController]
-    public class Auth : ControllerBase
+    public class AuthController : ControllerBase
     {
         public IConfiguration _configuration;
         private readonly IAuthApplication _authApplication;
 
-        public Auth(IConfiguration config, IAuthApplication authApplication)
+        public AuthController(IConfiguration config, IAuthApplication authApplication)
         {
             _configuration = config;
             _authApplication = authApplication;
@@ -106,10 +108,16 @@ namespace WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> GetUserInfo(BaseUserRequest user)
+        [HttpGet]
+        public async Task<IActionResult> GetUserInfo()
         {
-            var result = await _authApplication.GetUserInfo(user);
+            string accessToken = Request.Headers["Authorization"];
+            accessToken = accessToken.Remove(0, 7);
+            var token = new JwtSecurityToken(jwtEncodedString: accessToken);
+            string userId = token.Claims.First(c => c.Type == "UserId").Value;
+            BaseUserRequest user = new();
+            user.UserId = userId;
+            UserInfoResponse result = await _authApplication.GetUserInfo(user);
             if (result.Status == ResponseState.Success)
             {
                 return Ok(result);
@@ -120,7 +128,34 @@ namespace WebAPI.Controllers
             }
 
         }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetBasicUserInfo()
+        {
+            string accessToken =Request.Headers["Authorization"];
+            accessToken=accessToken.Remove(0, 7);
+            var token = new JwtSecurityToken(jwtEncodedString: accessToken);
+            string userId = token.Claims.First(c => c.Type == "UserId").Value;
+            BaseUserRequest user = new();
+            user.UserId = userId;
+            UserInfoResponse allInfo = await _authApplication.GetUserInfo(user);
+            if (allInfo.Status == ResponseState.Success)
+            {
+                BasicUserInfo result = new();
+                result.NationalNo = allInfo.NationalNo;
+                result.UserAccessLevel = (int)allInfo.UserAccessLevel;
+                result.UserName = allInfo.UserName;
+                result.UserId = allInfo.UserId;
+                result.FullName = allInfo.FullName;
+                result.NationalNo = allInfo.NationalNo;
+                return Ok(result);
+            }
+            else
+            {
+                return StatusCode(500, allInfo);
+            }
 
+        }
         [Authorize]
         [HttpPatch]
         public async Task<IActionResult> UpdateUser(UpdateUserRequest user)
@@ -132,7 +167,7 @@ namespace WebAPI.Controllers
             }
             else
             {
-                return Unauthorized(result);
+                return StatusCode(500,result);
             }
 
         }
@@ -152,7 +187,5 @@ namespace WebAPI.Controllers
             }
 
         }
-
-
     }
 }
