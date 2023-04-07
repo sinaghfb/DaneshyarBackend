@@ -47,7 +47,7 @@ namespace Application.Implementation.Auth
                         response.UserId = newUser.Id;
                         response.PersonId = newUser.ThePerson.Id;
                         response.UserName = newUser.Username;
-                        response.UserAccessLevel = (int)newUser.TheRole.UserAccessLevel;
+                        response.UserAccessLevel = newUser.TheRole.UserAccessLevel;
                         response.FullName = newUser.ThePerson.Name + " " + newUser.ThePerson.Family;
                         response.NationalNo = newUser.ThePerson.NationalNo;
                         response.Status = ResponseState.Success;
@@ -127,7 +127,7 @@ namespace Application.Implementation.Auth
                         response.UserId = foundedUser.Id;
                         response.PersonId = foundedUser.ThePerson.Id;
                         response.UserName = foundedUser.Username;
-                        response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
+                        response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
                         response.Status = ResponseState.Success;
                         response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                         response.NationalNo = foundedUser.ThePerson.NationalNo;
@@ -270,7 +270,7 @@ namespace Application.Implementation.Auth
                             response.PersonId= newUser.ThePerson.Id;
                             response.UserName = newUser.Username;
                             response.Status = ResponseState.Success;
-                            response.UserAccessLevel =(int) newUser.TheRole.UserAccessLevel;
+                            response.UserAccessLevel =newUser.TheRole.UserAccessLevel;
                             response.Message = "ثبت کاربر موفقیت آمیز بود";
                             response.Description = "User Registerd Succsessfuly";
                         }
@@ -330,7 +330,7 @@ namespace Application.Implementation.Auth
                                 response.UserId = foundedUser.Id;
                                 response.PersonId = foundedUser.ThePerson.Id;
                                 response.UserName = foundedUser.Username;
-                                response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
+                                response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
                                 response.Status = ResponseState.Success;
                                 response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                                 response.NationalNo = foundedUser.ThePerson.NationalNo;
@@ -367,7 +367,7 @@ namespace Application.Implementation.Auth
                             response.UserId = foundedUser.Id;
                             response.PersonId = foundedUser.ThePerson.Id;
                             response.UserName = foundedUser.Username;
-                            response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
+                            response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
                             response.Status = ResponseState.Success;
                             response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                             response.NationalNo = foundedUser.ThePerson.NationalNo;
@@ -410,7 +410,7 @@ namespace Application.Implementation.Auth
                         response.UserId = foundedUser.Id;
                         response.PersonId = foundedUser.ThePerson.Id;
                         response.UserName = foundedUser.Username;
-                        response.UserAccessLevel = (int)foundedUser.TheRole.UserAccessLevel;
+                        response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
                         response.Status = ResponseState.Success;
                         response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                         response.NationalNo = foundedUser.ThePerson.NationalNo;
