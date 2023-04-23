@@ -4,7 +4,6 @@ using Domain.Enums;
 using Infrastructure.Contexts.BaseInfo;
 using Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 
 namespace Infrastructure.Repositories.BaseInfo
 {
@@ -20,7 +19,7 @@ namespace Infrastructure.Repositories.BaseInfo
             var foundedPerson=await _personContext.Persons.FirstOrDefaultAsync(x => x.Id == PersonId);    
             if (foundedPerson != null)
             {
-                foundedPerson.State = ObjectState.Deleted;
+                foundedPerson.State = ObjectStateEnum.Deleted;
                 return true;
             }
             else

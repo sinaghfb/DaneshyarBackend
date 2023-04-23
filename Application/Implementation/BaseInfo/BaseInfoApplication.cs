@@ -32,20 +32,20 @@ namespace Application.Implementation.BaseInfo
                     _baseInfoRepository.Create(newPerson);
                     if (await _baseInfoRepository.SaveChanges())
                     {
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "ثبت شخص موفقیت آمیز بود";
                         response.Description = "User Registerd Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "ثبت شخص با خطا مواجه شد";
                         response.Description = "User Register Failed";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "شخص قبلا ثبت شده است";
                     response.Description = "User Already Exists";
                 }
@@ -53,7 +53,7 @@ namespace Application.Implementation.BaseInfo
             catch (Exception ex)
             {
 
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "ثبت شخص با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -69,13 +69,13 @@ namespace Application.Implementation.BaseInfo
                     await _baseInfoRepository.DeletePerson(person.PersonId);
                     if (await _baseInfoRepository.SaveChanges())
                     {
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "حذف شخص موفقیت آمیز بود";
                         response.Description = "User Deleted Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "حذف شخص با خطا مواجه شد";
                         response.Description = "User ِDelete Failed";
                     }
@@ -88,13 +88,13 @@ namespace Application.Implementation.BaseInfo
                         await _baseInfoRepository.DeletePerson(foundedPerson.Id);
                         if (await _baseInfoRepository.SaveChanges())
                         {
-                            response.Status = ResponseState.Success;
+                            response.Status = ResponseStateEnum.Success;
                             response.Message = "حذف شخص موفقیت آمیز بود";
                             response.Description = "User Deleted Succsessfuly";
                         }
                         else
                         {
-                            response.Status = ResponseState.Failed;
+                            response.Status = ResponseStateEnum.Failed;
                             response.Message = "حذف شخص با خطا مواجه شد";
                             response.Description = "User ِDelete Failed";
                         }
@@ -103,7 +103,7 @@ namespace Application.Implementation.BaseInfo
             }
             catch (Exception ex)
             {
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "حذف شخص با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -124,13 +124,13 @@ namespace Application.Implementation.BaseInfo
                         response.Family = foundedPerson.Family;
                         response.FatherName = foundedPerson.FatherName;
                         response.Name = foundedPerson.Name;
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "شخص با موفقیت یافت شد";
                         response.Description = "Person Found Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "شخص یافت نشد";
                         response.Description = "Person Not Found";
                     }
@@ -146,20 +146,20 @@ namespace Application.Implementation.BaseInfo
                         response.Family = foundedPerson.Family;
                         response.FatherName = foundedPerson.FatherName;
                         response.Name = foundedPerson.Name;
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "شخص با موفقیت یافت شد";
                         response.Description = "Person Found Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "شخص یافت نشد";
                         response.Description = "Person Not Found";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "کد ملی یا شناسه وجود ندارد";
                     response.Description = "Null Input";
                 }
@@ -167,7 +167,7 @@ namespace Application.Implementation.BaseInfo
             catch (Exception ex)
             {
 
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "پیدا کردن شخص با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -182,13 +182,13 @@ namespace Application.Implementation.BaseInfo
                 {
                     if (await _baseInfoRepository.Exists(x => x.Id == person.PersonId))
                     {
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "شخص با موفقیت یافت شد";
                         response.Description = "Person Found Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "شخص یافت نشد";
                         response.Description = "Person Not Found";
                     }
@@ -197,20 +197,20 @@ namespace Application.Implementation.BaseInfo
                 {
                     if (await _baseInfoRepository.Exists(x => x.NationalNo == person.NationalNo))
                     {
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "شخص با موفقیت یافت شد";
                         response.Description = "Person Found Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "شخص یافت نشد";
                         response.Description = "Person Not Found";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "کد ملی یا شناسه وجود ندارد";
                     response.Description = "Null Input";
                 }
@@ -219,7 +219,7 @@ namespace Application.Implementation.BaseInfo
             {
 
 
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "پیدا کردن شخص با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -244,13 +244,13 @@ namespace Application.Implementation.BaseInfo
                             _baseInfoRepository.UpdatePerson(foundedPerson);
                             if (await _baseInfoRepository.SaveChanges())
                             {
-                                response.Status = ResponseState.Success;
+                                response.Status = ResponseStateEnum.Success;
                                 response.Message = "شخص با موفقیت به روزسانی شد";
                                 response.Description = "Person Found Succsessfuly";
                             }
                             else
                             {
-                                response.Status = ResponseState.Failed;
+                                response.Status = ResponseStateEnum.Failed;
                                 response.Message = "به روزرسانی شخص با خطا مواجه شد";
                                 response.Description = "Update Person Failed";
                             }
@@ -259,7 +259,7 @@ namespace Application.Implementation.BaseInfo
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "شخص یافت نشد";
                     response.Description = "Person Not Found";
                 }
@@ -267,7 +267,7 @@ namespace Application.Implementation.BaseInfo
             catch (Exception ex)
             {
 
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "به روزرسانی شخص با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }   

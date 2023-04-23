@@ -2,7 +2,7 @@
 
 namespace Domain.Enums
 {
-    public enum ObjectState
+    public enum ObjectStateEnum
     {
         [Description("نامعلوم")]
         Unknown = 0,

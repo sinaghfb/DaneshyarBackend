@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories.Auth
         {
             var foundedUser = await _userContext.Users.FirstOrDefaultAsync(x => x.Id == UserId);
             if (foundedUser != null) {
-                foundedUser.State = ObjectState.Deleted;
+                foundedUser.State = ObjectStateEnum.Deleted;
                 return true;
             }
             else

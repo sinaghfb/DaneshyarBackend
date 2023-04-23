@@ -15,6 +15,6 @@ namespace Domain.DTOs.Auth.Response
         public string? UserId { get; set; }
         public string? PersonId { get; set; }
         public string? FullName { get; set; }
-        public AccessLevel UserAccessLevel { get; set; }
+        public AccessLevelEnum UserAccessLevel { get; set; }
     }
 }

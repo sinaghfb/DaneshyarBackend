@@ -11,6 +11,6 @@ namespace Domain.DTOs.Auth.Request
         public string? Family { get; set; }
         public string? NationalNo { get; set; }
         public string? FatherName { get; set; }
-        public AccessLevel UserAccessLevel { get; set; }
+        public AccessLevelEnum UserAccessLevel { get; set; }
     }
 }

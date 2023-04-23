@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             SignInResponse response = new();
 
             response.user= await _authApplication.NewUserRegister(user);
-            if (response.user.Status== ResponseState.Success)
+            if (response.user.Status== ResponseStateEnum.Success)
             {
                 //create claims details based on the user information
                 var claims = new[] {
@@ -72,7 +72,7 @@ namespace WebAPI.Controllers
         {
             SignInResponse response = new();
             response.user = await _authApplication.UserLogin(user);
-            if (response.user.Status == ResponseState.Success)
+            if (response.user.Status == ResponseStateEnum.Success)
             {
                 //create claims details based on the user information
                 var claims = new[] {
@@ -118,7 +118,7 @@ namespace WebAPI.Controllers
             BaseUserRequest user = new();
             user.UserId = userId;
             UserInfoResponse result = await _authApplication.GetUserInfo(user);
-            if (result.Status == ResponseState.Success)
+            if (result.Status == ResponseStateEnum.Success)
             {
                 return Ok(result);
             }
@@ -139,7 +139,7 @@ namespace WebAPI.Controllers
             BaseUserRequest user = new();
             user.UserId = userId;
             UserInfoResponse allInfo = await _authApplication.GetUserInfo(user);
-            if (allInfo.Status == ResponseState.Success)
+            if (allInfo.Status == ResponseStateEnum.Success)
             {
                 BasicUserInfo result = new();
                 result.NationalNo = allInfo.NationalNo;
@@ -161,7 +161,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> UpdateUser(UpdateUserRequest user)
         {
             var result = await _authApplication.UpdateUser(user);
-            if (result.Status == ResponseState.Success)
+            if (result.Status == ResponseStateEnum.Success)
             {
                 return Ok(result);
             }
@@ -177,7 +177,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> DeleteUser(BaseUserRequest user)
         {
             var result = await _authApplication.DeleteUser(user);
-            if (result.Status == ResponseState.Success)
+            if (result.Status == ResponseStateEnum.Success)
             {
                 return Ok(result);
             }
