@@ -18,7 +18,7 @@ namespace Infrastructure.Contexts.BaseInfo
         {
             var assembly = typeof(PersonMapping).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
-            modelBuilder.Entity<Person>().HasQueryFilter(x => x.State == ObjectState.Active);
+            modelBuilder.Entity<Person>().HasQueryFilter(x => x.State == ObjectStateEnum.Active);
             base.OnModelCreating(modelBuilder);
         }
     }

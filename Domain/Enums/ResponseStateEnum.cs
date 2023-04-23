@@ -1,11 +1,11 @@
 ﻿namespace Domain.Enums
 {
-    public enum ResponseState
+    public enum ResponseStateEnum
     {
         Unknown = 0,
         Success = 1,
         Failed = 2,
-        Execption = 3,
+        Exception = 3,
         NotFound = 4
     }
 }

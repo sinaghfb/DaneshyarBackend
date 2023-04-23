@@ -1,7 +1,6 @@
 ﻿using Application.Dependencies.Base;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Infrastructure.Repositories.Base
 {
@@ -15,6 +14,7 @@ namespace Infrastructure.Repositories.Base
         }
         public  void Create(T entity)
         {
+            _context.Entry(entity).State = EntityState.Unchanged;
             _context.Add(entity);
         }
 

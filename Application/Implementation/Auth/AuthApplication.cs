@@ -50,27 +50,27 @@ namespace Application.Implementation.Auth
                         response.UserAccessLevel = newUser.TheRole.UserAccessLevel;
                         response.FullName = newUser.ThePerson.Name + " " + newUser.ThePerson.Family;
                         response.NationalNo = newUser.ThePerson.NationalNo;
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "ثبت کاربر موفقیت آمیز بود";
                         response.Description = "User Registerd Succsessfuly";
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "ثبت کاربر با خطا مواجه شد";
                         response.Description = "User Register Failed";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "ثبت کاربر با خطا مواجه شد";
                     response.Description = "User Register Failed";
                 }
             }
             catch (Exception ex)
             {
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "ثبت کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -128,7 +128,7 @@ namespace Application.Implementation.Auth
                         response.PersonId = foundedUser.ThePerson.Id;
                         response.UserName = foundedUser.Username;
                         response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                         response.NationalNo = foundedUser.ThePerson.NationalNo;
                         response.Message = "تغییر کلمه عبور کاربر موفقیت آمیز بود";
@@ -136,21 +136,21 @@ namespace Application.Implementation.Auth
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "تغییر کلمه عبور کاربر با خطا مواجه شد";
                         response.Description = "Change Password Failed";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "تغییر کلمه عبور کاربر با خطا مواجه شد";
                     response.Description = "Change Password Failed";
                 }
             }
             catch (Exception ex)
             {
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "تغییر کلمه عبور کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -168,28 +168,28 @@ namespace Application.Implementation.Auth
                 {
                     if (await _userRepository.DeleteUser(foundedUser.Id))
                     {
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.Message = "حذف کاربر موفقیت آمیز بود";
                         response.Description = "User Deleted Succsessfuly";
 
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "حذف کاربر با خطا مواجه شد";
                         response.Description = "User Delete Failed";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "حذف کاربر با خطا مواجه شد";
                     response.Description = "User Delete Failed";
                 }
             }
             catch (Exception ex)
             {
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "حذف کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -214,13 +214,13 @@ namespace Application.Implementation.Auth
                     response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                     response.UserId = foundedUser.Id;
                     response.PersonId=foundedUser.ThePerson.Id;
-                    response.Status = ResponseState.Success;
+                    response.Status = ResponseStateEnum.Success;
                     response.Message = "اطلاعات کاربر یافت شد";
                     response.Description = "User Find Succsessfuly";
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "اطلاعات کاربر یافت نشد";
                     response.Description = "User Find Failed";
 
@@ -229,7 +229,7 @@ namespace Application.Implementation.Auth
             catch (Exception ex)
             {
 
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "بازیابی اطلاعات کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -269,35 +269,35 @@ namespace Application.Implementation.Auth
                             response.UserId = newUser.Id;
                             response.PersonId= newUser.ThePerson.Id;
                             response.UserName = newUser.Username;
-                            response.Status = ResponseState.Success;
+                            response.Status = ResponseStateEnum.Success;
                             response.UserAccessLevel =newUser.TheRole.UserAccessLevel;
                             response.Message = "ثبت کاربر موفقیت آمیز بود";
                             response.Description = "User Registerd Succsessfuly";
                         }
                         else
                         {
-                            response.Status = ResponseState.Failed;
+                            response.Status = ResponseStateEnum.Failed;
                             response.Message = "ثبت کاربر با خطا مواجه شد";
                             response.Description = "User Register Failed";
                         }
                     }
                     else
                     {
-                        response.Status = ResponseState.NotFound;
+                        response.Status = ResponseStateEnum.NotFound;
                         response.Message = "ثبت کاربر با خطا مواجه شد";
                         response.Description = "User Not Found";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "اطلاعات کاربر موجود است";
                     response.Description = "user Exists";
                 }
             }
             catch (Exception ex)
             {
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "ثبت کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -331,7 +331,7 @@ namespace Application.Implementation.Auth
                                 response.PersonId = foundedUser.ThePerson.Id;
                                 response.UserName = foundedUser.Username;
                                 response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
-                                response.Status = ResponseState.Success;
+                                response.Status = ResponseStateEnum.Success;
                                 response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                                 response.NationalNo = foundedUser.ThePerson.NationalNo;
                                 response.Message = "به روزرسانی کاربر موفقیت آمیز بود";
@@ -339,14 +339,14 @@ namespace Application.Implementation.Auth
                             }
                             else
                             {
-                                response.Status = ResponseState.Failed;
+                                response.Status = ResponseStateEnum.Failed;
                                 response.Message = "به روزرسانی کاربر با خطا مواجه شد";
                                 response.Description = "User Register Failed";
                             }
                         }
                         else
                         {
-                            response.Status = ResponseState.Failed;
+                            response.Status = ResponseStateEnum.Failed;
                             response.Message = "کد ملی تکراری است";
                             response.Description = "Duplicate National No";
                         }
@@ -368,7 +368,7 @@ namespace Application.Implementation.Auth
                             response.PersonId = foundedUser.ThePerson.Id;
                             response.UserName = foundedUser.Username;
                             response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
-                            response.Status = ResponseState.Success;
+                            response.Status = ResponseStateEnum.Success;
                             response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                             response.NationalNo = foundedUser.ThePerson.NationalNo;
                             response.Message = "به روزرسانی کاربر موفقیت آمیز بود";
@@ -376,7 +376,7 @@ namespace Application.Implementation.Auth
                         }
                         else
                         {
-                            response.Status = ResponseState.Failed;
+                            response.Status = ResponseStateEnum.Failed;
                             response.Message = "به روزرسانی کاربر با خطا مواجه شد";
                             response.Description = "User Register Failed";
                         }
@@ -384,14 +384,14 @@ namespace Application.Implementation.Auth
                 }
                 else
                 {
-                    response.Status = ResponseState.Failed;
+                    response.Status = ResponseStateEnum.Failed;
                     response.Message = "به روزرسانی کاربر با خطا مواجه شد";
                     response.Description = "User Register Failed";
                 }
             }
             catch (Exception ex)
             {
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "به روزرسانی کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }
@@ -411,7 +411,7 @@ namespace Application.Implementation.Auth
                         response.PersonId = foundedUser.ThePerson.Id;
                         response.UserName = foundedUser.Username;
                         response.UserAccessLevel = foundedUser.TheRole.UserAccessLevel;
-                        response.Status = ResponseState.Success;
+                        response.Status = ResponseStateEnum.Success;
                         response.FullName = foundedUser.ThePerson.Name + " " + foundedUser.ThePerson.Family;
                         response.NationalNo = foundedUser.ThePerson.NationalNo;
                         response.Message = "ورود کاربر  موفقیت آمیز بود";
@@ -419,14 +419,14 @@ namespace Application.Implementation.Auth
                     }
                     else
                     {
-                        response.Status = ResponseState.Failed;
+                        response.Status = ResponseStateEnum.Failed;
                         response.Message = "ورود کاربر با خطا مواجه شد";
                         response.Description = "User Register Failed";
                     }
                 }
                 else
                 {
-                    response.Status = ResponseState.NotFound;
+                    response.Status = ResponseStateEnum.NotFound;
                     response.Message = "کاربر یافت نشد";
                     response.Description = "User Not Found ";
                 }
@@ -434,7 +434,7 @@ namespace Application.Implementation.Auth
             catch (Exception ex)
             {
 
-                response.Status = ResponseState.Execption;
+                response.Status = ResponseStateEnum.Exception;
                 response.Message = "ورود کاربر با خطا مواجه شد";
                 response.Description = ex.HtmlErrorReport();
             }

@@ -2,7 +2,7 @@
 
 namespace Domain.Enums
 {
-    public enum AccessLevel
+    public enum AccessLevelEnum
     {
         [Description("هیچکدام")]
         None = 0,

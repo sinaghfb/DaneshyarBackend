@@ -15,7 +15,7 @@ namespace Domain.Entites.Auth
         [Required]
         public string EnglishTitle { get; set; }
         [Required]
-        public AccessLevel UserAccessLevel { get; set; }
+        public AccessLevelEnum UserAccessLevel { get; set; }
         public virtual List<User> TheUsers { get; set; }
     }
 }

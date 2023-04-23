@@ -22,7 +22,7 @@ namespace Infrastructure.Repositories.Auth
             var foundedRole= await _roleContext.Roles.FirstOrDefaultAsync(x=>x.Id== roleId);
             if (foundedRole!=null)
             {
-                foundedRole.State = ObjectState.Deleted;
+                foundedRole.State = ObjectStateEnum.Deleted;
                 return true;
             }
             else

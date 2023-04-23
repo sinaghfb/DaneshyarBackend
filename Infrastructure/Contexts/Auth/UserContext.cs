@@ -20,7 +20,7 @@ namespace Infrastructure.Contexts.Auth
         {
             var assembly = typeof(UserMapping).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
-            modelBuilder.Entity<User>().HasQueryFilter(x => x.State == ObjectState.Active);
+            modelBuilder.Entity<User>().HasQueryFilter(x => x.State == ObjectStateEnum.Active);
             base.OnModelCreating(modelBuilder);
         }
     }

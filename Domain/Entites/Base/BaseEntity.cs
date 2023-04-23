@@ -13,7 +13,7 @@ namespace Domain.Entites.Base
         public BaseEntity()
         {
             Id = Guid.NewGuid().ToString();
-            State = ObjectState.Active;
+            State = ObjectStateEnum.Active;
             CreateDateTime = DateTime.Now;
         }
         [Required]
@@ -23,7 +23,7 @@ namespace Domain.Entites.Base
         [Timestamp]
         public byte[] TimeStamp { get; set; }
         [Required]
-        public ObjectState State { get; set; }
+        public ObjectStateEnum State { get; set; }
         [ConcurrencyCheck]
         public DateTime CreateDateTime { get; set; }
     }

@@ -12,6 +12,6 @@ namespace Domain.DTOs.Auth.Request
         public string? Email { get; set; }
         public string? Username { get; set; }
         public string? MobileNo { get; set; }
-        public AccessLevel UserAccessLevel { get; set; }
+        public AccessLevelEnum UserAccessLevel { get; set; }
     }
 }
