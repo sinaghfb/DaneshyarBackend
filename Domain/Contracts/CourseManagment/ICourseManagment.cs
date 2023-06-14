@@ -10,6 +10,6 @@ namespace Domain.Contracts.CourseManagment
         Task<GetCourseResponse> GetCourseDetail(GeneralCourseRequest request);
         Task<AddCourseResponse> AddCourse(AddCourseRequest request);
         Task<BaseResponse> DeleteCourse(GeneralCourseRequest request);
-        Task<BaseResponse> UpdateCourse(UpdateCourseResquest request);
+        Task<BaseResponse> UpdateCourse(UpdateTermResquest request);
     }
 }

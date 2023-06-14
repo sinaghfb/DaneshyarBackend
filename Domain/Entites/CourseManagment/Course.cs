@@ -1,4 +1,5 @@
 ﻿using Domain.Entites.Base;
+using Domain.Entites.TermManagment;
 using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,7 @@ namespace Domain.Entites.CourseManagment
         {
             PreRequireds = new ();
             Requireds= new ();
+            TermCourses=new ();
         }
         [Required]
         public int UnitCount { get; set; }
@@ -24,5 +26,7 @@ namespace Domain.Entites.CourseManagment
         public CourseTypeEnum CourseType { get; set; }
         public virtual List<PreRequired> PreRequireds  { get; set; }
         public virtual List<PreRequired> Requireds { get; set; }
+        public virtual List<TermCourse> TermCourses { get; set; }
+
     }
 }

@@ -1,5 +1,5 @@
-﻿using Domain.Contracts.CourseManagment;
-using Domain.DTOs.CourseManagment.Request;
+﻿using Domain.Contracts.TermManagment;
+using Domain.DTOs.TermManagment.Request;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,21 +9,21 @@ namespace WebAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[Action]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class TermController : ControllerBase
     {
         public IConfiguration _configuration;
-        private readonly ICourseManagment _courseManagment;
-        public CourseController(IConfiguration config, ICourseManagment courseManagment)
+        private readonly ITermManagment _termManagment;
+        public TermController(IConfiguration config, ITermManagment termManagment)
         {
-            _courseManagment = courseManagment;
             _configuration = config;
+            _termManagment = termManagment;
         }
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllCourses()
+        public async Task<IActionResult> GetAllTerms()
         {
-           var res=await _courseManagment.GetAllCourses();
-            if (res.Status== ResponseStateEnum.Success)
+            var res = await _termManagment.GetAllTermCourses();
+            if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
             }
@@ -34,9 +34,9 @@ namespace WebAPI.Controllers
         }
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> AddCourse(AddCourseRequest request)
+        public async Task<IActionResult> AddTerm(AddTermRequest request)
         {
-            var res = await _courseManagment.AddCourse(request);
+            var res = await _termManagment.AddTerm(request);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
@@ -48,9 +48,9 @@ namespace WebAPI.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> GetCourse(GeneralCourseRequest request)
+        public async Task<IActionResult> GetTerm(GeneralTermRequestModel request)
         {
-            var res = await _courseManagment.GetCourseDetail(request);
+            var res = await _termManagment.GetTermDetail(request.TermId);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
@@ -62,9 +62,9 @@ namespace WebAPI.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> DeleteCourse(GeneralCourseRequest request)
+        public async Task<IActionResult> DeleteTerm(GeneralTermRequestModel request)
         {
-            var res = await _courseManagment.DeleteCourse(request);
+            var res = await _termManagment.DeleteTerm(request.TermId);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
@@ -76,9 +76,9 @@ namespace WebAPI.Controllers
         }
         [HttpPatch]
         [Authorize]
-        public async Task<IActionResult> UpdateCourse(UpdateTermResquest request)
+        public async Task<IActionResult> UpdateTerm(UpdateTermRequest request)
         {
-            var res = await _courseManagment.UpdateCourse(request);
+            var res = await _termManagment.UpdateTerm(request);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);

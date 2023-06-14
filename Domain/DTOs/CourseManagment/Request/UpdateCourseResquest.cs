@@ -3,9 +3,9 @@ using Domain.Enums;
 
 namespace Domain.DTOs.CourseManagment.Request
 {
-    public class UpdateCourseResquest
+    public class UpdateTermResquest
     {
-        public UpdateCourseResquest()
+        public UpdateTermResquest()
         {
             CourseType = new SelectModel();
             PreRequireds = new List<SelectModel>();

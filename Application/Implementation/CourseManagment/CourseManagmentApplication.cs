@@ -6,7 +6,6 @@ using Domain.DTOs.CourseManagment.Response;
 using Domain.Entites.CourseManagment;
 using Domain.Enums;
 using EnumsNET;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Application.Implementation.CourseManagment
 {
@@ -233,7 +232,7 @@ namespace Application.Implementation.CourseManagment
             return response;
         }
 
-        public async Task<BaseResponse> UpdateCourse(UpdateCourseResquest request)
+        public async Task<BaseResponse> UpdateCourse(UpdateTermResquest request)
         {
             AddCourseResponse response = new();
             try

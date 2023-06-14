@@ -1,7 +1,8 @@
-﻿using Domain.Contracts.CourseManagment;
-using Domain.DTOs.CourseManagment.Request;
+﻿using Domain.Contracts.TermManagment;
+using Domain.DTOs.TermManagment.Request;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -9,21 +10,21 @@ namespace WebAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[Action]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class TermCourseController : ControllerBase
     {
         public IConfiguration _configuration;
-        private readonly ICourseManagment _courseManagment;
-        public CourseController(IConfiguration config, ICourseManagment courseManagment)
+        private readonly ITermManagment _termManagment;
+        public TermCourseController(IConfiguration config, ITermManagment termManagment)
         {
-            _courseManagment = courseManagment;
             _configuration = config;
+            _termManagment = termManagment;
         }
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllCourses()
+        public async Task<IActionResult> GetAllTermCourses()
         {
-           var res=await _courseManagment.GetAllCourses();
-            if (res.Status== ResponseStateEnum.Success)
+            var res = await _termManagment.GetAllTermCourses();
+            if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
             }
@@ -34,9 +35,9 @@ namespace WebAPI.Controllers
         }
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> AddCourse(AddCourseRequest request)
+        public async Task<IActionResult> AddTermCourse(AddTermCourseRequest request)
         {
-            var res = await _courseManagment.AddCourse(request);
+            var res = await _termManagment.AddTermCourse(request);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
@@ -48,9 +49,9 @@ namespace WebAPI.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> GetCourse(GeneralCourseRequest request)
+        public async Task<IActionResult> GetTermCourse(GeneralTermRequestModel request)
         {
-            var res = await _courseManagment.GetCourseDetail(request);
+            var res = await _termManagment.GetTermCourseDetail(request.TermId);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
@@ -62,9 +63,23 @@ namespace WebAPI.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> DeleteCourse(GeneralCourseRequest request)
+        public async Task<IActionResult> DeleteTermCourse(GeneralTermRequestModel request)
         {
-            var res = await _courseManagment.DeleteCourse(request);
+            var res = await _termManagment.DeleteTermCourse(request.TermId);
+            if (res.Status == ResponseStateEnum.Success)
+            {
+                return Ok(res);
+            }
+            else
+            {
+                return StatusCode(500, res);
+            }
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> RecoverTermCourse(RecoverTermCourseRequest request)
+        {
+            var res = await _termManagment.RecoverTermCourse(request);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
@@ -76,9 +91,9 @@ namespace WebAPI.Controllers
         }
         [HttpPatch]
         [Authorize]
-        public async Task<IActionResult> UpdateCourse(UpdateTermResquest request)
+        public async Task<IActionResult> UpdateTermCourse(UpdateTermCourseRequest request)
         {
-            var res = await _courseManagment.UpdateCourse(request);
+            var res = await _termManagment.UpdateTermCourse(request);
             if (res.Status == ResponseStateEnum.Success)
             {
                 return Ok(res);
